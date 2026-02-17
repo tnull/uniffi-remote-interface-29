@@ -11,32 +11,29 @@ use std::str::FromStr;
 
 uniffi::include_scaffolding!("test");
 
-impl UniffiCustomTypeConverter for PaymentHash {
-	type Builtin = String;
-
-	fn into_custom(val: Self::Builtin) -> uniffi::Result<Self> {
+uniffi::custom_type!(PaymentHash, String, {
+	remote,
+	try_lift: |val| {
 		if let Ok(hash) = Sha256::from_str(&val) {
 			Ok(PaymentHash(hash.to_byte_array()))
 		} else {
 			Err(Error::SomeError.into())
 		}
-	}
-
-	fn from_custom(obj: Self) -> Self::Builtin {
+	},
+	lower: |obj| {
 		Sha256::from_slice(&obj.0).unwrap().to_string()
-	}
-}
+	},
+});
 
-impl UniffiCustomTypeConverter for UntrustedString {
-	type Builtin = String;
-	fn into_custom(val: Self::Builtin) -> uniffi::Result<Self> {
+uniffi::custom_type!(UntrustedString, String, {
+	remote,
+	try_lift: |val| {
 		Ok(UntrustedString(val))
-	}
-
-	fn from_custom(obj: Self) -> Self::Builtin {
+	},
+	lower: |obj| {
 		obj.to_string()
-	}
-}
+	},
+});
 
 #[derive(Debug)]
 pub enum Error {

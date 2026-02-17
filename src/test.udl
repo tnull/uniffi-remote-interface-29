@@ -21,13 +21,13 @@ interface ClosureReason {
 	PeerFeerateTooLow(u32 peer_feerate_sat_per_kw, u32 required_feerate_sat_per_kw);
 };
 
-[Trait]
+[Remote, Trait]
 interface VssHeaderProvider {
 	[Async, Throws=VssHeaderProviderError]
 	record<string, string> get_headers([ByRef]sequence<u8> request);
 };
 
-[Error]
+[Remote, Error]
 enum VssHeaderProviderError {
 	"InvalidData",
 	"RequestError",
