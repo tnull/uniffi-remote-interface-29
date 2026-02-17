@@ -1,0 +1,14 @@
+[package]
+name = "uniffi-remote-interface-29"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85"
+
+[dependencies]
+bitcoin = "0.32.8"
+lightning = { version = "0.2.0", features = ["std"] }
+uniffi = { version = "0.28.3", features = ["build"] }
+vss-client = { package = "vss-client-ng", version = "0.4" }
+
+[build-dependencies]
+uniffi = { version = "0.28.3", features = ["build"] }
