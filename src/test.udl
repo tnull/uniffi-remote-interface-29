@@ -1,0 +1,39 @@
+namespace test {
+	TypeHoldingClosureReason return_reason();
+};
+
+[Enum]
+interface TypeHoldingClosureReason {
+	Variant(ClosureReason reason);
+};
+
+[Enum]
+interface ClosureReason {
+	CounterpartyForceClosed(UntrustedString peer_msg);
+	HolderForceClosed(boolean? broadcasted_latest_txn, string message);
+	LegacyCooperativeClosure();
+	CounterpartyInitiatedCooperativeClosure();
+	LocallyInitiatedCooperativeClosure();
+	CommitmentTxConfirmed();
+	FundingTimedOut();
+	ProcessingError(string err);
+	DisconnectedPeer();
+	OutdatedChannelManager();
+	CounterpartyCoopClosedUnfundedChannel();
+	LocallyCoopClosedUnfundedChannel();
+	FundingBatchClosure();
+	HTLCsTimedOut( PaymentHash? payment_hash );
+	PeerFeerateTooLow(u32 peer_feerate_sat_per_kw, u32 required_feerate_sat_per_kw);
+};
+
+[Custom]
+typedef string UntrustedString;
+
+[Custom]
+typedef string PaymentHash;
+
+[Error]
+enum Error {
+	"SomeError",
+};
+
